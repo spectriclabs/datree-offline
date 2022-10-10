@@ -16,4 +16,4 @@ FROM datree/datreeci:latest
 ARG schema_version
 COPY --from=clone_schema /schema/$schema_version/ /schema
 RUN datree config set offline local
-ENTRYPOINT ["datree", "--schema-location", "'/schema/{{.ResourceKind}}{{.KindSuffix}}.json'"]
+ENTRYPOINT ["datree", "--schema-location='/schema/{{.ResourceKind}}{{.KindSuffix}}.json'"]
