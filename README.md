@@ -8,11 +8,18 @@ Because there are so many versions of the Kubernetes JSON schemas, they cannot a
 
 ## Usage
 
-The `ENTRYPOINT` for each Docker image already includes the necessary parameters to use Datree in an offline manner.  Here's how to use it on the command line, which can be adapted to your CI/CD environment.
+Here's how to use it on the command line, which can be adapted to your CI/CD environment.  Datree is already configured to run offline within the container.  The only things that really need to be modified here are the schema version, the `policies.yaml` config path, and the file(s) to check at the end.
 
 ```sh
-docker run -it --rm -v `pwd`:/tmp ghcr.io/spectriclabs/datree-offline:v1.24.6-standalone-strict test /tmp/somefile.yaml
+docker run --network=none -it --rm -v `pwd`:/tmp ghcr.io/spectriclabs/datree-offline:v1.24.6-standalone-strict \
+  test --no-record --schema-location='/schema/{{.ResourceKind}}{{.KindSuffix}}.json' \
+  --schema-version=1.24.6 \
+  --policy-config=/container/path/to/policies.yaml /container/path/to/check/*.yaml
 ```
+
+## Policies
+
+The default policies are available within the container at `/policies/default.yaml`, copied from [here](https://github.com/datreeio/datree/blob/main/examples/defaultPaC/policies.yaml).
 
 ## License
 
