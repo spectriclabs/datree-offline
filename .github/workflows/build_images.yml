@@ -31,8 +31,8 @@ jobs:
     - uses: docker/build-push-action@v3
       with:
         context: .
-        build-args:
-        - schema_version: v1.24.6-standalone-strict
+        build-args: |
+          schema_version=v1.24.6-standalone-strict
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
