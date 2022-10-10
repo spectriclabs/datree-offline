@@ -11,6 +11,12 @@ jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        schema_version:
+        - v1.24.6-standalone-strict
+        - v1.25.2-standalone-strict
+
     permissions:
       contents: read
       packages: write
@@ -27,12 +33,12 @@ jobs:
       with:
         images: ${{ env.REGISTRY }}/spectriclabs/datree-offline
         tags: |
-          type=raw,value=v1.24.6-standalone-strict
+          type=raw,value=${{ matrix.schema_version }}
     - uses: docker/build-push-action@v3
       with:
         context: .
         build-args: |
-          schema_version=v1.24.6-standalone-strict
+          schema_version=${{ matrix.schema_version }}
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
