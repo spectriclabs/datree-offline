@@ -14,8 +14,8 @@ jobs:
     strategy:
       matrix:
         schema_version:
-        - v1.24.6-standalone-strict
-        - v1.25.2-standalone-strict
+        - "1.24.6"
+        - "1.25.2"
 
     permissions:
       contents: read
@@ -33,7 +33,7 @@ jobs:
       with:
         images: ${{ env.REGISTRY }}/spectriclabs/datree-offline
         tags: |
-          type=raw,value=${{ matrix.schema_version }}
+          type=raw,value=v${{ matrix.schema_version }}-standalone-strict
     - uses: docker/build-push-action@v3
       with:
         context: .
